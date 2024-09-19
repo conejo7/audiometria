@@ -38,6 +38,6 @@ public class SearchSpecification<T> implements Specification<T> {
     }
 
     public static Pageable getPageable(Integer page, Integer size) {
-        return PageRequest.of(Objects.requireNonNullElse(page, 0), Objects.requireNonNullElse(size, 100));
+        return PageRequest.of(Objects.requireNonNullElse(page, 0), Objects.requireNonNullElse(size, 10));
     }
 }
