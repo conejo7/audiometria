@@ -27,11 +27,11 @@ public class FilterRequest implements Serializable {
 
     private FieldType fieldType;
 
-    private transient Object value;
+    private Object value;
 
-    private transient Object valueTo;
+    private Object valueTo;
 
-    private transient List<Object> values;
+    private List<Object> values;
 
 }
 

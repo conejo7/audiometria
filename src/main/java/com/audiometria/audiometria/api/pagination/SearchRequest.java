@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +29,8 @@ public class SearchRequest {
     private Integer page;
 
     private Integer size;
+
+    private String productLabel;
 
     public List<FilterRequest> getFilters() {
         if (Objects.isNull(this.filters)) return new ArrayList<>();

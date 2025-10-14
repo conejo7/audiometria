@@ -16,7 +16,12 @@ public enum Operator {
 
     EQUAL {
         public <T> Predicate build(Root<T> root, CriteriaBuilder cb, FilterRequest request, Predicate predicate) {
+            if (request.getValue() == null) {
+                log.warn("El valor del filtro '{}' es null. Se ignora este filtro.", request.getKey());
+                return predicate;
+            }
             Object value = request.getFieldType().parse(request.getValue().toString());
+
             Expression<?> key = this.getPath(root, request);
             return cb.and(cb.equal(key, value), predicate);
         }

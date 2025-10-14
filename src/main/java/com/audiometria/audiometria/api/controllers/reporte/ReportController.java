@@ -1,9 +1,9 @@
-package com.audiometria.audiometria.api.controllers;
+package com.audiometria.audiometria.api.controllers.reporte;
 
 
 import com.audiometria.audiometria.api.pagination.SearchRequest;
-import com.audiometria.audiometria.api.repository.entities.Reporte;
-import com.audiometria.audiometria.api.service.OperatingSystemService;
+import com.audiometria.audiometria.api.repository.entities.reporte.Reporte;
+import com.audiometria.audiometria.api.service.reporte.OperatingSystemService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;

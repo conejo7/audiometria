@@ -1,4 +1,4 @@
-package com.audiometria.audiometria.api.repository.entities;
+package com.audiometria.audiometria.api.repository.entities.reporte;
 
 import org.springframework.data.jpa.domain.Specification;
 

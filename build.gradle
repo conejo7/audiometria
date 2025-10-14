@@ -35,8 +35,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation ('org.axonframework:axon-spring-boot-starter:4.9.3') {
-		exclude group: 'com.thoughtworks.xstream', module: 'xstream'
+    implementation ('org.axonframework:axon-spring-boot-starter:4.9.3') {
+		exclude group: 'org.axonframework', module: 'axon-server-connector'
 	}
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -46,6 +46,15 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'org.jboss.logging:jboss-logging:3.5.3.Final'
+	implementation 'com.opencsv:opencsv:5.8'
+	implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+	// Spring Batch
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.batch:spring-batch-core:5.0.2' // o superior
+	implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+
 }
 
 tasks.named('test') {

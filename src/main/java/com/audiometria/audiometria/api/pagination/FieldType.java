@@ -23,17 +23,15 @@ public enum FieldType {
 
     DATE {
         public Object parse(String value) {
-            Object date = null;
             try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                date = LocalDateTime.parse(value, formatter);
+                return LocalDateTime.parse(value); // Usa ISO 8601 por defecto
             } catch (Exception e) {
-                log.info("Failed parse field type DATE {}", e.getMessage());
+                log.warn("Failed to parse DATE value '{}': {}", value, e.getMessage());
+                return null;
             }
-
-            return date;
         }
     },
+
 
     DOUBLE {
         public Object parse(String value) {
@@ -57,7 +55,13 @@ public enum FieldType {
         public Object parse(String value) {
             return value;
         }
-    };
+    },
+    UUID {
+        public Object parse(String value) {
+            log.info("Parseando UUID: {}", value);
+            return java.util.UUID.fromString(value); // ✅ Esto es correcto
+        }
+    },;
 
     public abstract Object parse(String value);
 }

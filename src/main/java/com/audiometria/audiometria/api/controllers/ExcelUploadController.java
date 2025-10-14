@@ -29,6 +29,7 @@ public class ExcelUploadController {
     @Autowired
     private ExcelImportService excelImportService;
 
+    //ya no se usa
     @PostMapping("/upload")
     public ResponseEntity<String> uploadExcel(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
