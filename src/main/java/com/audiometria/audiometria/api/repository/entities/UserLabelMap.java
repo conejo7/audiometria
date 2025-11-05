@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
@@ -22,5 +24,9 @@ public class UserLabelMap {
     @NotNull
     @Column(name = "user_name", nullable = false, length = Integer.MAX_VALUE)
     private String userName;
+
+    @Column(name = "porcentaje", precision = 5, scale = 2)
+    private BigDecimal porcentaje;
+
 
 }
