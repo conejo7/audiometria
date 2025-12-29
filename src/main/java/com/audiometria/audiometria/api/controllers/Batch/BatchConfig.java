@@ -64,19 +64,26 @@ public class BatchConfig {
     @StepScope
     public FlatFileItemReader<Musicoteca> reader(@Value("#{jobParameters['fullPathFileName']}") String pathToFile,
                                                  @Value("#{jobParameters['fecha']}") String fecha,
-                                                 @Value("#{jobParameters['uploadId']}") String uploadId) {
+                                                 @Value("#{jobParameters['uploadId']}") String uploadId,
+                                                 @Value("#{jobParameters['valorEuro']}") String valorEuro) {
 
         System.out.println("🟢 pathToFile: " + pathToFile);
 //        System.out.println("🟢 userId: " + userId);
 
-        if (pathToFile == null || pathToFile.isBlank()) {
-            throw new IllegalArgumentException("pathToFile es null o vacío");
+//        if (pathToFile == null || pathToFile.isBlank()) {
+//            throw new IllegalArgumentException("pathToFile es null o vacío");
+//        }
+//
+//        if (valorEuro == null || valorEuro.isBlank()) {
+//            throw new IllegalArgumentException("valorEuro es null o vacío");
+//        }
+        if (pathToFile.isBlank() || valorEuro.isBlank() || uploadId.isBlank()) {
+            // No lanzar excepción en el arranque!
+            System.out.println("⏳ Batch aún no ejecutado: parámetros vacíos al iniciar.");
+            return new FlatFileItemReader<>(); // lector vacío hasta que se lance el job
         }
 
-//        if (userId == null || userId.isBlank()) {
-//            throw new IllegalArgumentException("userId es null o vacío");
-//        }
-        return new CsvMusicotecaReader(pathToFile, UUID.fromString(uploadId), fecha);
+        return new CsvMusicotecaReader(pathToFile, UUID.fromString(uploadId), fecha, valorEuro);
     }
 
     @Bean

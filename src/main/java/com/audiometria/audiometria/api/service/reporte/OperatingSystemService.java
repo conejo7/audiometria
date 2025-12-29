@@ -5,7 +5,6 @@ import com.audiometria.audiometria.api.pagination.SearchSpecification;
 import com.audiometria.audiometria.api.repository.entities.reporte.Reporte;
 import com.audiometria.audiometria.api.repository.entities.reporte.ReporteRepository;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,4 +26,6 @@ public class OperatingSystemService {
         return reporteRepository
                 .findAll(specification, pageable);
     }
+
+
 }

@@ -21,6 +21,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio para gestionar las operaciones relacionadas con el sistema de música.
+ * Proporciona métodos para buscar registros en la base de datos y cargar datos desde archivos CSV.
+ *
+ * <p>Este servicio utiliza el repositorio de Musicoteca para interactuar con la base de datos
+ * y realiza operaciones como filtrado, paginación y almacenamiento de datos.</p>
+ *
+ * <p>Las principales funcionalidades incluyen:</p>
+ * <ul>
+ *   <li>Búsqueda de registros en la base de datos con filtros y paginación.</li>
+ *   <li>Carga de datos desde archivos CSV y almacenamiento en la base de datos.</li>
+ * </ul>
+ *
+ * <p>Se utiliza la biblioteca OpenCSV para procesar archivos CSV y Apache POI para manejar datos relacionados con hojas de cálculo.</p>
+ *
+ * <p>Este servicio está anotado con {@code @Service}, lo que lo convierte en un componente gestionado por Spring.</p>
+ *
+ * <p>El registro de eventos se realiza mediante la biblioteca Lombok con la anotación {@code @Slf4j}.</p>
+ */
+
 @Slf4j
 @Service
 public class MusicaSystemService {
@@ -52,7 +72,15 @@ public class MusicaSystemService {
                         .findFirst()
                         .orElse(null));
 
-        if (productLabel != null && !productLabel.isBlank()) {
+        if ("admin".equalsIgnoreCase(productLabel)) {
+            log.info("Usuario admin detectado. Eliminando filtro productLabel para mostrar todos los registros.");
+            request.setFilters(
+                    request.getFilters().stream()
+                            .filter(f -> !"productLabel".equalsIgnoreCase(f.getKey()))
+                            .collect(Collectors.toList())
+            );
+        } else if (productLabel != null && !productLabel.isBlank()) {
+            // Caso normal: filtrar por el label del usuario
             request.getFilters().add(new FilterRequest(
                     "productLabel",
                     Operator.EQUAL,
@@ -63,6 +91,8 @@ public class MusicaSystemService {
         } else {
             log.warn("product_label no enviado; se omitirá ese filtro.");
         }
+
+
         request.getFilters().add(
                 new FilterRequest(
                         "state",

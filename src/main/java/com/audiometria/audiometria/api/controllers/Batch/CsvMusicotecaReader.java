@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class CsvMusicotecaReader extends FlatFileItemReader<Musicoteca> {
 
-    public CsvMusicotecaReader(String filePath, UUID uploadId, String fecha) {
+    public CsvMusicotecaReader(String filePath, UUID uploadId, String fecha, String euro) {
         if (filePath == null || filePath.isBlank()) {
             throw new IllegalArgumentException("filePath no puede ser null o vacío");
         }
@@ -31,7 +31,7 @@ public class CsvMusicotecaReader extends FlatFileItemReader<Musicoteca> {
                     "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId"
             );
         }});
-        lineMapper.setFieldSetMapper(new MusicotecaFieldSetMapper(uploadId,fecha));
+        lineMapper.setFieldSetMapper(new MusicotecaFieldSetMapper(uploadId,fecha, euro));
         setLineMapper(lineMapper);
     }
 }

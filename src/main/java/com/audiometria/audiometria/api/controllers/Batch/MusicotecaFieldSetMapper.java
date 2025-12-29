@@ -18,10 +18,13 @@ public class MusicotecaFieldSetMapper implements FieldSetMapper<Musicoteca> {
 //    private final UUID userId;
     private final UUID uploadId;
     private final LocalDate fecha;
+    private final Double valorEuro;
 
-    public MusicotecaFieldSetMapper(UUID uploadId, String fecha) {
+    public MusicotecaFieldSetMapper(UUID uploadId, String fecha, String euro) {
         this.uploadId = uploadId;
         this.fecha = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        this.valorEuro = Double.parseDouble(euro);
     }
 
     @Override
@@ -65,6 +68,7 @@ public class MusicotecaFieldSetMapper implements FieldSetMapper<Musicoteca> {
         m.setDateUser(fecha.atStartOfDay());
         m.setState(1L);
         m.setUploadId(uploadId);
+        m.setEuro(BigDecimal.valueOf(valorEuro));
 
         return m;
     }

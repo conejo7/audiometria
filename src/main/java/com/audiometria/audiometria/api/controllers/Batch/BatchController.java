@@ -38,7 +38,8 @@ public class BatchController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,
 //                                    @RequestParam("userId") UUID userId,
-                                    @RequestParam("fecha") String fecha ) throws Exception {
+                                    @RequestParam("fecha") String fecha,
+                                    @RequestParam("valorEuro") String valorEuro ) throws Exception {
         Path tempDir = Files.createTempDirectory("upload-");
         File tempFile = new File(tempDir.toFile(), file.getOriginalFilename());
         file.transferTo(tempFile);
@@ -52,6 +53,7 @@ public class BatchController {
 //                .addString("userId", userId.toString())
                 .addString("uploadId", uploadId.toString())
                 .addString("fecha", fecha)
+                .addString("valorEuro", valorEuro)
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
 

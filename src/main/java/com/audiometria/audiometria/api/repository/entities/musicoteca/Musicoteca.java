@@ -141,5 +141,8 @@ public class Musicoteca {
     @Column(name = "upload_id")
     private UUID uploadId;
 
+    @Column(name = "euro", precision = 20, scale = 16)
+    private BigDecimal euro;
+
 
 }
