@@ -35,4 +35,7 @@ public class MusicotecaRoyaltySummary {
     @Column(name = "total_royalty")
     private BigDecimal totalRoyalty;
 
+    @Column(name = "ganancia_neta")
+    private BigDecimal ganancia_neta;
+
 }
