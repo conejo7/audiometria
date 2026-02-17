@@ -1,6 +1,8 @@
 package com.audiometria.audiometria.api.controllers.Batch;
 
 import com.audiometria.audiometria.api.repository.entities.musicoteca.Musicoteca;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Slf4j
 public class MusicotecaFieldSetMapper implements FieldSetMapper<Musicoteca> {
 
 //    private final UUID userId;
@@ -70,6 +73,7 @@ public class MusicotecaFieldSetMapper implements FieldSetMapper<Musicoteca> {
         m.setUploadId(uploadId);
         m.setEuro(BigDecimal.valueOf(valorEuro));
 
+        log.info("Registro completo: " + m.toString());
         return m;
     }
 

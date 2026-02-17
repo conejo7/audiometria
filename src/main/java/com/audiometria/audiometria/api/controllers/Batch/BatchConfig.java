@@ -52,7 +52,7 @@ public class BatchConfig {
                       ItemProcessor<Musicoteca, Musicoteca> processor,
                       ItemWriter<Musicoteca> writer) {
         return new StepBuilder("step1", jobRepository) // ← CORREGIDO
-                .<Musicoteca, Musicoteca>chunk(300, transactionManager) // ← CORREGIDO
+                .<Musicoteca, Musicoteca>chunk(1000, transactionManager) // ← CORREGIDO
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
