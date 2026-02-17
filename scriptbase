@@ -1,0 +1,82 @@
+-- Create sequence for auto-incrementing the reporte_id
+CREATE SEQUENCE IF NOT EXISTS reporte_reporte_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 2147483647
+    CACHE 1;
+
+-- Create reporte table
+CREATE TABLE IF NOT EXISTS reporte (
+    reporte_id INTEGER NOT NULL DEFAULT nextval('reporte_reporte_id_seq'::regclass),
+    reporte_nombre TEXT,
+    reporte_estado TEXT,
+    reporte_codigo TEXT NOT NULL,
+    reporte_rol BIGINT,
+    reporte_apellido TEXT,
+    reporte_cedula TEXT NOT NULL,
+    reporte_fecha_nacimiento DATE,
+    reporte_fecha_creacion DATE,
+    reporte_fecha_modificacion DATE,
+    CONSTRAINT reporte_pkey PRIMARY KEY (reporte_id)
+);
+
+-- Comment on table
+COMMENT ON TABLE reporte IS 'Tabla para almacenar información de reportes';
+
+-- Comments on columns
+COMMENT ON COLUMN reporte.reporte_id IS 'Identificador único del reporte';
+COMMENT ON COLUMN reporte.reporte_nombre IS 'Nombre asociado al reporte';
+COMMENT ON COLUMN reporte.reporte_estado IS 'Estado actual del reporte';
+COMMENT ON COLUMN reporte.reporte_codigo IS 'Código de identificación del reporte (obligatorio)';
+COMMENT ON COLUMN reporte.reporte_rol IS 'Rol asociado al reporte';
+COMMENT ON COLUMN reporte.reporte_apellido IS 'Apellido asociado al reporte';
+COMMENT ON COLUMN reporte.reporte_cedula IS 'Número de cédula (obligatorio)';
+COMMENT ON COLUMN reporte.reporte_fecha_nacimiento IS 'Fecha de nacimiento';
+COMMENT ON COLUMN reporte.reporte_fecha_creacion IS 'Fecha en que se creó el reporte';
+COMMENT ON COLUMN reporte.reporte_fecha_modificacion IS 'Fecha de la última modificación del reporte';
+
+-- Insert example data (optional)
+INSERT INTO reporte (
+    reporte_nombre,
+    reporte_estado,
+    reporte_codigo,
+    reporte_rol,
+    reporte_apellido,
+    reporte_cedula,
+    reporte_fecha_nacimiento,
+    reporte_fecha_creacion,
+    reporte_fecha_modificacion
+) VALUES (
+    'Juan',
+    'Activo',
+    'REP-001',
+    1,
+    'Pérez',
+    '1234567890',
+    '1990-01-15',
+    CURRENT_DATE,
+    CURRENT_DATE
+);
+
+INSERT INTO reporte (
+    reporte_nombre,
+    reporte_estado,
+    reporte_codigo,
+    reporte_rol,
+    reporte_apellido,
+    reporte_cedula,
+    reporte_fecha_nacimiento,
+    reporte_fecha_creacion,
+    reporte_fecha_modificacion
+) VALUES (
+    'María',
+    'Pendiente',
+    'REP-002',
+    2,
+    'González',
+    '0987654321',
+    '1985-07-22',
+    CURRENT_DATE,
+    CURRENT_DATE
+);
