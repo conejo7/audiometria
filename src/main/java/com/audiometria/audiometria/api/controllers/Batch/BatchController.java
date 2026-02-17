@@ -1,6 +1,7 @@
 package com.audiometria.audiometria.api.controllers.Batch;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.java.Log;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -40,6 +41,8 @@ public class BatchController {
 //                                    @RequestParam("userId") UUID userId,
                                     @RequestParam("fecha") String fecha,
                                     @RequestParam("valorEuro") String valorEuro ) throws Exception {
+
+        System.out.println("Iniciando upload");
         Path tempDir = Files.createTempDirectory("upload-");
         File tempFile = new File(tempDir.toFile(), file.getOriginalFilename());
         file.transferTo(tempFile);
@@ -64,6 +67,7 @@ public class BatchController {
         response.put("fileName", file.getOriginalFilename());
         response.put("fecha", fecha);
 
+        System.out.println("Finalizando upload");
         return ResponseEntity.ok(response);
     }
 
