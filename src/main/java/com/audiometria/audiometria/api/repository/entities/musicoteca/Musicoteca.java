@@ -30,10 +30,10 @@ public class Musicoteca {
     private String genre;
 
     @Column(name = "sale_start_date")
-    private LocalDateTime saleStartDate;
+    private LocalDate  saleStartDate;
 
     @Column(name = "sale_end_date")
-    private LocalDateTime saleEndDate;
+    private LocalDate  saleEndDate;
 
     private String dsp;
 
