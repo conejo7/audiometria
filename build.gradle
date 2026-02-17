@@ -26,9 +26,6 @@ ext {
 	springDocVersion = '2.5.0'
 }
 
-bootJar {
-    archiveFileName = 'app.jar'
-}
 
 
 
