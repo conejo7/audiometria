@@ -9,7 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://musicaapp-production.up.railway.app",
+        "https://audiometria-production.up.railway.app"
+})
 @RestController
 @RequestMapping("/api/v1/musica")
 @Tag(name = "Musica", description = "Musica API V1")

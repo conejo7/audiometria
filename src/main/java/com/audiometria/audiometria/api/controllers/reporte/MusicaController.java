@@ -20,7 +20,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://musicaapp-production.up.railway.app",
+        "https://audiometria-production.up.railway.app"
+})
 @RestController
 @RequestMapping("/api/v1/musica")
 @Tag(name = "Musica", description = "Musica API V1")

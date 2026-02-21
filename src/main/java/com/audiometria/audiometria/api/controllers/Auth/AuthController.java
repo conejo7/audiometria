@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://musicaapp-production.up.railway.app",
+        "https://audiometria-production.up.railway.app"
+})
 public class AuthController {
 
     @Autowired
