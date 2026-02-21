@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,7 +31,7 @@ public class MusicotecaRoyaltySummary {
     private BigDecimal euro;
 
     @Column(name = "date_user")
-    private LocalDate dateUser;
+    private LocalDateTime dateUser;
 
     @Column(name = "total_royalty")
     private BigDecimal totalRoyalty;
