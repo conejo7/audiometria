@@ -51,7 +51,7 @@ public class SecurityConfig {
                 )
               
              .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/musica/batch/upload-zip").permitAll()
+                .requestMatchers("/api/v1/musica/batch/**").permitAll()
                 .anyRequest().authenticated()
         );
 
