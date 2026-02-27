@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/v1/musica/**").permitAll()
+                                       .requestMatchers("/api/v1/musica/batch/**").permitAll()
                         .requestMatchers("/api/v1/musica/search").permitAll() // temporal para pruebas
                         .anyRequest().authenticated()
                 )
