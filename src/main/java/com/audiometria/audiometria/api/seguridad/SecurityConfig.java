@@ -54,8 +54,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/musica/**").permitAll()
                         .requestMatchers("/api/v1/musica/search").permitAll() // temporal para pruebas
                         .anyRequest().authenticated()
-                );
-                //.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
