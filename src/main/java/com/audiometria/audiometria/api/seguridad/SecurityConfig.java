@@ -50,22 +50,22 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
               
-             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/musica/batch/**").permitAll()
-                .anyRequest().authenticated()
-        );
+    //          .authorizeHttpRequests(auth -> auth
+    //             .requestMatchers("/api/v1/musica/batch/**").permitAll()
+    //             .anyRequest().authenticated()
+    //     );
 
-    return http.build();
-        //     .authorizeHttpRequests(auth -> auth
-        //                 .requestMatchers("/api/auth/**").permitAll()
-        //                         .requestMatchers("/api/v1/musica/**").permitAll()
-        //                                .requestMatchers("/api/v1/musica/batch/**").permitAll()
-        //                 .requestMatchers("/api/v1/musica/search").permitAll() // temporal para pruebas
-        //                 .anyRequest().authenticated()
-        //         )
-        //         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    // return http.build();
+            .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/v1/musica/**").permitAll()
+                                       .requestMatchers("/api/v1/musica/batch/**").permitAll()
+                        .requestMatchers("/api/v1/musica/search").permitAll() // temporal para pruebas
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // return http.build();
+        return http.build();
     }
 
 
