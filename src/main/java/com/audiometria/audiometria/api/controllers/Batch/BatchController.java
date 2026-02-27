@@ -114,5 +114,16 @@ public class BatchController {
         );
     }
 
+        @GetMapping("/debug/list-volume")
+public ResponseEntity<?> listVolume() {
+
+    File dir = new File("/mnt/uploads");
+
+    if (!dir.exists()) {
+        return ResponseEntity.ok("No existe /mnt/uploads");
+    }
+
+    return ResponseEntity.ok(dir.list());
+}
         
 }
