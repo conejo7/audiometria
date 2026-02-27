@@ -59,6 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception e) {
+                System.err.println("JWT Validation failed: " + e.getMessage());
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 return;
             }
