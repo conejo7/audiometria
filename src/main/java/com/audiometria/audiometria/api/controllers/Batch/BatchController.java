@@ -75,4 +75,43 @@ public class BatchController {
         return ResponseEntity.ok(response);
     }
 
+
+
+    //subir archivo a volumen railway
+    @PostMapping("/upload-zip")
+    public ResponseEntity<?> uploadZip(
+            @RequestParam("file") MultipartFile file
+    ) throws Exception {
+
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("Archivo vacío");
+        }
+
+        // Validar que sea zip
+        if (!file.getOriginalFilename().toLowerCase().endsWith(".zip")) {
+            return ResponseEntity.badRequest().body("Solo se permiten archivos .zip");
+        }
+
+        // Crear carpeta dentro del volume
+        File uploadDir = new File("/mnt/uploads");
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // Nombre único para evitar sobreescritura
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        File savedFile = new File(uploadDir, fileName);
+
+        // Guardar archivo en volume
+        file.transferTo(savedFile);
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "message", "Archivo subido correctamente al volume",
+                        "fileName", fileName,
+                        "path", savedFile.getAbsolutePath()
+                )
+        );
+    }
+
 }
