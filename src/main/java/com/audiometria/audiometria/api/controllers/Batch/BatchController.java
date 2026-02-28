@@ -1,6 +1,9 @@
 package com.audiometria.audiometria.api.controllers.Batch;
 
+import com.audiometria.audiometria.api.service.reporte.TotalesSystemService;
+import com.audiometria.audiometria.api.service.upload.UploadService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +42,11 @@ public class BatchController {
     @Qualifier("csvMusicotecaJob")  // nombre del bean
     private Job job;
 
+    private final UploadService uploadService;
+
+    public BatchController(UploadService uploadService) {
+        this.uploadService = uploadService;
+    }
 
     //este se usa
     @PostMapping("/upload")
@@ -78,40 +87,73 @@ public class BatchController {
 
 
     //subir archivo a volumen railway
+//    @PostMapping("/upload-zip")
+//    public ResponseEntity<?> uploadZip(
+//            @RequestParam("file") MultipartFile file
+//    ) throws Exception {
+//
+//        System.out.println("Iniciando upload-zip");
+//        if (file.isEmpty()) {
+//            return ResponseEntity.badRequest().body("Archivo vacío");
+//        }
+//
+//        // Validar que sea zip
+//        if (!file.getOriginalFilename().toLowerCase().endsWith(".zip")) {
+//            return ResponseEntity.badRequest().body("Solo se permiten archivos .zip");
+//        }
+//
+//        // Crear carpeta dentro del volume
+//        File uploadDir = new File("/mnt/uploads");
+//
+//        if (!uploadDir.exists()) {
+//            uploadDir.mkdirs();
+//        }
+//
+//        // Nombre único para evitar sobreescritura
+//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+//        File savedFile = new File(uploadDir, fileName);
+//
+//        // Guardar archivo en volume
+//        file.transferTo(savedFile);
+//
+//        return ResponseEntity.ok(
+//                Map.of(
+//                        "message", "Archivo subido correctamente al volume",
+//                        "fileName", fileName,
+//                        "path", savedFile.getAbsolutePath()
+//                )
+//        );
+//    }
+
     @PostMapping("/upload-zip")
     public ResponseEntity<?> uploadZip(
-            @RequestParam("file") MultipartFile file
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("fecha") String fecha,
+            @RequestParam("valorEuro") String valorEuro
     ) throws Exception {
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Archivo vacío");
         }
 
-        // Validar que sea zip
-        if (!file.getOriginalFilename().toLowerCase().endsWith(".zip")) {
-            return ResponseEntity.badRequest().body("Solo se permiten archivos .zip");
-        }
+//        Path uploadDir = Path.of("/mnt/uploads");
+        Path uploadDir = Path.of("C:/uploads");
+        Files.createDirectories(uploadDir);
 
-        // Crear carpeta dentro del volume
-        File uploadDir = new File("/mnt/uploads");
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-
-        // Nombre único para evitar sobreescritura
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        File savedFile = new File(uploadDir, fileName);
+        Path savedPath = uploadDir.resolve(fileName);
 
-        // Guardar archivo en volume
-        file.transferTo(savedFile);
+        Files.copy(file.getInputStream(), savedPath, StandardCopyOption.REPLACE_EXISTING);
 
-        return ResponseEntity.ok(
-                Map.of(
-                        "message", "Archivo subido correctamente al volume",
-                        "fileName", fileName,
-                        "path", savedFile.getAbsolutePath()
-                )
-        );
+        // 🔥 Llamas async pasando solo la ruta
+        uploadService.processZipAsync(savedPath.toString(), fecha, valorEuro);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Archivo recibido. Procesamiento en background iniciado.",
+                "fileName", fileName
+        ));
     }
+
+
 
 }
