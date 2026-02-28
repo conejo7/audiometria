@@ -73,7 +73,7 @@ public class MusicotecaFieldSetMapper implements FieldSetMapper<Musicoteca> {
         m.setUploadId(uploadId);
         m.setEuro(BigDecimal.valueOf(valorEuro));
 
-        log.info("Registro completo: " + m.toString());
+//        log.info("Registro completo: " + m.toString());
         return m;
     }
 
