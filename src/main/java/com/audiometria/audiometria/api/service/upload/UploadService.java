@@ -75,7 +75,7 @@ public class UploadService {
                 if (savedZip != null) Files.deleteIfExists(savedZip);
 
                 if (extractedDir != null && Files.exists(extractedDir)) {
-                  //  deleteDirectoryRecursively(extractedDir);
+                    deleteDirectoryRecursively(extractedDir);
                     System.out.println("borrando");
                 }
 
