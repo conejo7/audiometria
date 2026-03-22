@@ -17,12 +17,21 @@ import java.util.UUID;
 @Table(name = "musicoteca")
 public class Musicoteca {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "musicoteca_seq")
+    @SequenceGenerator(
+            name = "musicoteca_seq",
+            sequenceName = "musicoteca_seq",
+            allocationSize = 1000
+    )
     private Long id;
 
-//    @Column(name = "user_id", nullable = false)
-//    private UUID userId;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+
+
 
     private String title;
     private String artist;
