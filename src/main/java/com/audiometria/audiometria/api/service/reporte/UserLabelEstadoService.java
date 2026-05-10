@@ -1,7 +1,7 @@
 package com.audiometria.audiometria.api.service.reporte;
 
 import com.audiometria.audiometria.api.pagination.SearchRequest;
-import com.audiometria.audiometria.api.repository.entities.UserLabelEstado;
+import com.audiometria.audiometria.api.repository.entities.estadoFactura.UserLabelEstado;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

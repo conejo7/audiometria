@@ -1,4 +1,4 @@
-package com.audiometria.audiometria.api.repository.entities;
+package com.audiometria.audiometria.api.repository.entities.estadoFactura;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

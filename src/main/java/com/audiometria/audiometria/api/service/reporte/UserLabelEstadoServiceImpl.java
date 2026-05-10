@@ -2,8 +2,8 @@ package com.audiometria.audiometria.api.service.reporte;
 
 
 import com.audiometria.audiometria.api.pagination.*;
-import com.audiometria.audiometria.api.repository.entities.UserLabelEstado;
-import com.audiometria.audiometria.api.repository.entities.UserLabelEstadoRepository;
+import com.audiometria.audiometria.api.repository.entities.estadoFactura.UserLabelEstado;
+import com.audiometria.audiometria.api.repository.entities.estadoFactura.UserLabelEstadoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

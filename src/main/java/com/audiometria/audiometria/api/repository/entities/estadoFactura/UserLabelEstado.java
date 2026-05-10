@@ -1,4 +1,4 @@
-package com.audiometria.audiometria.api.repository.entities;
+package com.audiometria.audiometria.api.repository.entities.estadoFactura;
 
 
 import jakarta.persistence.*;

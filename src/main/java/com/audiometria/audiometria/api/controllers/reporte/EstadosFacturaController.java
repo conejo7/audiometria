@@ -1,7 +1,7 @@
 package com.audiometria.audiometria.api.controllers.reporte;
 
 import com.audiometria.audiometria.api.pagination.SearchRequest;
-import com.audiometria.audiometria.api.repository.entities.UserLabelEstado;
+import com.audiometria.audiometria.api.repository.entities.estadoFactura.UserLabelEstado;
 import com.audiometria.audiometria.api.service.reporte.UserLabelEstadoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;

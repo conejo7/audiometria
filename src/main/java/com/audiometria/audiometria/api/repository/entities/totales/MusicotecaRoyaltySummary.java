@@ -39,4 +39,7 @@ public class MusicotecaRoyaltySummary {
     @Column(name = "ganancia_neta")
     private BigDecimal ganancia_neta;
 
+    @Column(name = "estado_factura")
+    private String estadoFactura;
+
 }
