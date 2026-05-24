@@ -13,6 +13,38 @@ import java.util.UUID;
 
 public class CsvMusicotecaReader extends FlatFileItemReader<Musicoteca> {
 
+    // Columnas base (32) — formato original
+    private static final String[] BASE_COLUMNS = {
+            "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
+            "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
+            "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
+            "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
+            "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
+            "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId"
+    };
+
+    // Columnas base + audioFormat (33)
+    private static final String[] COLUMNS_33 = {
+            "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
+            "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
+            "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
+            "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
+            "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
+            "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId",
+            "audioFormat"
+    };
+
+    // Columnas base + audioFormat + dspUnitId + dspContainerId + dspCollectionId (36)
+    private static final String[] COLUMNS_36 = {
+            "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
+            "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
+            "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
+            "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
+            "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
+            "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId",
+            "audioFormat", "dspUnitId", "dspContainerId", "dspCollectionId"
+    };
+
     public CsvMusicotecaReader(String filePath, UUID uploadId, String fecha, String euro) {
         if (filePath == null || filePath.isBlank()) {
             throw new IllegalArgumentException("filePath no puede ser null o vacío");
@@ -21,64 +53,26 @@ public class CsvMusicotecaReader extends FlatFileItemReader<Musicoteca> {
         int columnCount = validateAndCountColumns(filePath);
 
         setResource(new FileSystemResource(filePath));
-        setLinesToSkip(1); // skip header
+        setLinesToSkip(1);
         setEncoding("UTF-8");
 
         DefaultLineMapper<Musicoteca> lineMapper = new DefaultLineMapper<>();
-
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
 
-        // Configurar nombres de columnas según el número detectado
-        if (columnCount == 32) {
-            // Archivo sin "Audio Format"
-            tokenizer.setNames(
-                    "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
-                    "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
-                    "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
-                    "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
-                    "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
-                    "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId"
-            );
-        } else if (columnCount == 33) {
-            // Archivo con "Audio Format"
-            tokenizer.setNames(
-                    "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
-                    "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
-                    "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
-                    "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
-                    "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
-                    "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId",
-                    "audioFormat"
-            );
-        } else {
-            throw new IllegalArgumentException(
-                    String.format("El archivo CSV tiene %d columnas. Se esperaban 32 o 33 columnas.", columnCount)
+        switch (columnCount) {
+            case 32 -> tokenizer.setNames(BASE_COLUMNS);
+            case 33 -> tokenizer.setNames(COLUMNS_33);
+            case 36 -> tokenizer.setNames(COLUMNS_36);
+            default -> throw new IllegalArgumentException(
+                    String.format("El archivo CSV tiene %d columnas. Se esperaban 32, 33 o 36 columnas.", columnCount)
             );
         }
 
         lineMapper.setLineTokenizer(tokenizer);
         lineMapper.setFieldSetMapper(new MusicotecaFieldSetMapper(uploadId, fecha, euro));
         setLineMapper(lineMapper);
-
-//        lineMapper.setLineTokenizer(new DelimitedLineTokenizer() {{
-//            setNames(
-//                    "saleStartDate", "saleEndDate", "dsp", "saleStoreName", "saleType", "saleUserType",
-//                    "territory", "productUpc", "productReference", "productCatalogNumber", "productLabel",
-//                    "productArtist", "productTitle", "assetArtist", "assetTitle", "assetVersion", "assetDuration",
-//                    "assetIsrc", "assetReference", "assetProduct", "productQuantity", "assetQuantity",
-//                    "originalGrossIncome", "originalCurrency", "exchangeRate", "convertedGrossIncome",
-//                    "contractDealTerm", "reportedRoyalty", "currency", "reportRunId", "reportId", "saleId"
-//            );
-//        }});
-//        lineMapper.setFieldSetMapper(new MusicotecaFieldSetMapper(uploadId,fecha, euro));
-//        setLineMapper(lineMapper);
     }
 
-    /**
-     * Valida y cuenta el número de columnas en el archivo CSV
-     * @param filePath ruta del archivo
-     * @return número de columnas encontradas
-     */
     private int validateAndCountColumns(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String headerLine = reader.readLine();
@@ -87,14 +81,12 @@ public class CsvMusicotecaReader extends FlatFileItemReader<Musicoteca> {
                 throw new IllegalArgumentException("El archivo CSV está vacío o no tiene encabezado");
             }
 
-            // Contar columnas separadas por coma
             String[] columns = headerLine.split(",", -1);
             int columnCount = columns.length;
 
-            // Validar que sea 32 o 33
-            if (columnCount != 32 && columnCount != 33) {
+            if (columnCount != 32 && columnCount != 33 && columnCount != 36) {
                 throw new IllegalArgumentException(
-                        String.format("El archivo CSV tiene %d columnas. Se esperaban 32 o 33 columnas.", columnCount)
+                        String.format("El archivo CSV tiene %d columnas. Se esperaban 32, 33 o 36 columnas.", columnCount)
                 );
             }
 
