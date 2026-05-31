@@ -1,4 +1,4 @@
-package com.audiometria.audiometria.api.repository.entities.totales;
+package com.audiometria.audiometria.api.repository.entities.vistaTotales;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Immutable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,8 +14,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "v_musicoteca_royalty_summary")
-public class MusicotecaRoyaltySummary {
+@Immutable
+@Table(name = "mv_musicoteca_royalty_summary")
+public class MusicotecaRoyaltySummaryFast {
 
     @Id
     @Column(name = "id")
@@ -36,7 +38,7 @@ public class MusicotecaRoyaltySummary {
     private BigDecimal totalRoyalty;
 
     @Column(name = "ganancia_neta")
-    private BigDecimal ganancia_neta;
+    private BigDecimal gananciaNeta;
 
     @Column(name = "estado_factura")
     private String estadoFactura;
