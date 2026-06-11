@@ -25,7 +25,9 @@ public class AuthService {
     private String jwtSecret;
 
     public String login(String username, String rawPassword) {
-        User user = userRepository.findByUsername(username)
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        User user = userRepository.findByFilterUser(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (!passwordEncoder.matches(rawPassword, user.getPasswordHash())) {

@@ -26,4 +26,7 @@ public class User {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "filter_user")
+    private String filterUser;
 }

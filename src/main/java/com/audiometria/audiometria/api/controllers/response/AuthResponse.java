@@ -14,7 +14,7 @@ public class AuthResponse {
     private String uid;
     private String email;
     private String displayName;
-
+    private String filterUser;
 
     public AuthResponse(String message) {
     }

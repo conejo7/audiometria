@@ -16,4 +16,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
     }
 
+
+    public User findByFilterUser(String username) {
+        return userRepository.findByFilterUser(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
+    }
+
 }

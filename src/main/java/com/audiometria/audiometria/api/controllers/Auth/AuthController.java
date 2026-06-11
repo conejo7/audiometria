@@ -45,13 +45,15 @@ public class AuthController {
             if (token == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("Invalid credentials"));
             }
-            User user = userService.findByUsername(request.getUsername());
+//            User user = userService.findByUsername(request.getUsername());
+            User user = userService.findByFilterUser(request.getUsername());
 
             return ResponseEntity.ok(new AuthResponse(
                     token,
                     String.valueOf(user.getId()),
                     user.getEmail(),
-                    user.getUsername()
+                    user.getUsername(),
+                    user.getFilterUser()
             ));
 //            return ResponseEntity.ok(new AuthResponse(token));
         } catch (Exception e) {
