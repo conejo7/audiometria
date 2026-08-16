@@ -1,9 +1,12 @@
 package com.audiometria.audiometria.api.controllers.totales;
 
+import com.audiometria.audiometria.api.pagination.MusicotecaRoyaltyGroupRequest;
 import com.audiometria.audiometria.api.pagination.SearchRequest;
+import com.audiometria.audiometria.api.repository.dto.estadisticas.MusicotecaRoyaltyDetailDTO;
 import com.audiometria.audiometria.api.repository.entities.musicoteca.Musicoteca;
 import com.audiometria.audiometria.api.repository.entities.totales.MusicotecaRoyaltySummary;
 import com.audiometria.audiometria.api.repository.entities.vistaTotales.MusicotecaRoyaltySummaryFast;
+import com.audiometria.audiometria.api.service.estadistica.MusicotecaRoyaltyDetailService;
 import com.audiometria.audiometria.api.service.reporte.TotalesSystemService;
 import com.audiometria.audiometria.api.service.totales.TotalesRoyaltyService;
 import com.audiometria.audiometria.api.service.totalesFast.TotalesRoyaltyFastService;
@@ -25,9 +28,12 @@ public class TotalesController {
 
     private final TotalesRoyaltyFastService totalesRoyaltyFastService;
 
-    public TotalesController(TotalesRoyaltyService totalesRoyaltyService, TotalesRoyaltyFastService totalesRoyaltyFastService) {
+    private final MusicotecaRoyaltyDetailService musicotecaRoyaltyDetailService;
+
+    public TotalesController(TotalesRoyaltyService totalesRoyaltyService, TotalesRoyaltyFastService totalesRoyaltyFastService, MusicotecaRoyaltyDetailService musicotecaRoyaltyDetailService) {
         this.totalesRoyaltyService = totalesRoyaltyService;
         this.totalesRoyaltyFastService = totalesRoyaltyFastService;
+        this.musicotecaRoyaltyDetailService = musicotecaRoyaltyDetailService;
     }
 
     @PostMapping(value = "/totalroyalty")
@@ -38,6 +44,17 @@ public class TotalesController {
     @PostMapping(value = "/totalroyalty-fast")
     public Page<MusicotecaRoyaltySummaryFast> searchFast(@RequestBody SearchRequest request) {
         return totalesRoyaltyFastService.searchTotalesRoyaltyFast(request);
+    }
+
+
+    @PostMapping("/estadisticas")
+    public Page<MusicotecaRoyaltyDetailDTO> searchEstadistica(@RequestBody SearchRequest request) {
+        return musicotecaRoyaltyDetailService.search(request);
+    }
+
+    @PostMapping("/estadisticasGrouped")
+    public Page<MusicotecaRoyaltyDetailDTO> searchEstadisticaGrouped(@RequestBody MusicotecaRoyaltyGroupRequest request) {
+        return musicotecaRoyaltyDetailService.searchGrouped(request);
     }
 }
 
