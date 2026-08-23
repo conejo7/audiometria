@@ -125,7 +125,7 @@ public class MusicotecaRoyaltyDetailRepositoryImpl implements MusicotecaRoyaltyD
          * ORDER BY
          */
         query.orderBy(
-                cb.desc(groupExpression)
+                cb.desc(totalRoyalty)
         );
 
 
