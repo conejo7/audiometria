@@ -371,5 +371,112 @@ public class MusicotecaRoyaltyDetailRepositoryImpl implements MusicotecaRoyaltyD
                 .size();
     }
 
+    @Override
+    public List<MusicotecaRoyaltyDetailDTO> searchGroupedForExport(
+            SearchRequest request,
+            String groupBy) {
+
+        /*
+         * Validamos el campo de agrupación.
+         */
+        if (!isValidGroupBy(groupBy)) {
+            throw new IllegalArgumentException(
+                    "Campo groupBy no permitido: " + groupBy
+            );
+        }
+
+        CriteriaBuilder cb =
+                entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Tuple> query =
+                cb.createTupleQuery();
+
+        Root<MusicotecaRoyaltyDetail> root =
+                query.from(MusicotecaRoyaltyDetail.class);
+
+
+        /*
+         * Campo por el cual agrupamos.
+         */
+        Expression<String> groupExpression =
+                getGroupExpression(root, groupBy);
+
+
+        /*
+         * SUM(totalRoyalty)
+         */
+        Expression<BigDecimal> totalRoyalty =
+                cb.sum(root.get("totalRoyalty"));
+
+
+        /*
+         * SUM(assetQuantity)
+         */
+        Expression<Long> assetQuantity =
+                cb.sum(root.get("assetQuantity"));
+
+
+        /*
+         * SELECT
+         */
+        query.multiselect(
+                groupExpression.alias("groupValue"),
+                totalRoyalty.alias("totalRoyalty"),
+                assetQuantity.alias("assetQuantity")
+        );
+
+
+        /*
+         * Aplicamos filtros.
+         */
+        SearchSpecification<MusicotecaRoyaltyDetail> specification =
+                new SearchSpecification<>(request);
+
+        Predicate predicate =
+                specification.toPredicate(
+                        root,
+                        query,
+                        cb
+                );
+
+        if (predicate != null) {
+            query.where(predicate);
+        }
+
+
+        /*
+         * GROUP BY
+         */
+        query.groupBy(
+                groupExpression
+        );
+
+
+        /*
+         * Ordenamos por mayor royalty.
+         */
+        query.orderBy(
+                cb.desc(totalRoyalty),
+                cb.asc(groupExpression)
+        );
+
+
+        /*
+         * Ejecutamos SIN paginación.
+         */
+        List<Tuple> result =
+                entityManager
+                        .createQuery(query)
+                        .getResultList();
+
+
+        /*
+         * Tuple -> DTO
+         */
+        return result.stream()
+                .map(tuple -> toDto(tuple, groupBy))
+                .toList();
+    }
+
 
 }

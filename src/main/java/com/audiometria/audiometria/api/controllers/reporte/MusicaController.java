@@ -1,5 +1,6 @@
 package com.audiometria.audiometria.api.controllers.reporte;
 
+import com.audiometria.audiometria.api.controllers.request.MusicotecaRoyaltyGroupedExportRequest;
 import com.audiometria.audiometria.api.pagination.SearchRequest;
 import com.audiometria.audiometria.api.repository.entities.musicoteca.Musicoteca;
 import com.audiometria.audiometria.api.repository.entities.reporte.Reporte;
@@ -87,6 +88,43 @@ public class MusicaController {
         headers.setContentDisposition(
                 ContentDisposition.attachment()
                         .filename("reporte.xlsx")
+                        .build()
+        );
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excel);
+    }
+
+    /*
+     * Exportación agrupada.
+     */
+    @PostMapping("/exportExcelGrouped")
+    public ResponseEntity<byte[]> exportExcelGrouped(
+            @RequestBody MusicotecaRoyaltyGroupedExportRequest request
+    ) throws IOException {
+
+        byte[] excel =
+                exportExcelService.generarExcelGrouped(
+                        request.getSearchRequest(),
+                        request.getGroupBy()
+                );
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(
+                MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+        );
+
+        headers.setContentDisposition(
+                ContentDisposition.attachment()
+                        .filename(
+                                "reporte_"
+                                        + request.getGroupBy()
+                                        + ".xlsx"
+                        )
                         .build()
         );
 
