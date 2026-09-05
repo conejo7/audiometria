@@ -12,7 +12,10 @@ import com.audiometria.audiometria.api.service.totales.TotalesRoyaltyService;
 import com.audiometria.audiometria.api.service.totalesFast.TotalesRoyaltyFastService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @CrossOrigin(origins = {
         "http://localhost:5173",
@@ -55,6 +58,15 @@ public class TotalesController {
     @PostMapping("/estadisticasGrouped")
     public Page<MusicotecaRoyaltyDetailDTO> searchEstadisticaGrouped(@RequestBody MusicotecaRoyaltyGroupRequest request) {
         return musicotecaRoyaltyDetailService.searchGrouped(request);
+    }
+
+    @PostMapping("/estadisticaTotales")
+    public ResponseEntity<BigDecimal> sumTotalRoyalty(
+            @RequestBody SearchRequest request) {
+
+        return ResponseEntity.ok(
+                musicotecaRoyaltyDetailService.sumTotalRoyalty(request)
+        );
     }
 }
 

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -167,4 +168,8 @@ public class MusicotecaRoyaltyDetailService {
         return repository.searchGrouped(request, groupBy);
     }
 
+
+    public BigDecimal sumTotalRoyalty(SearchRequest request) {
+        return repository.sumTotalRoyalty(request);
+    }
 }

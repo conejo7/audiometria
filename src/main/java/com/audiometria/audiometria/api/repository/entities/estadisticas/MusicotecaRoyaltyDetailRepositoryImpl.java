@@ -479,4 +479,45 @@ public class MusicotecaRoyaltyDetailRepositoryImpl implements MusicotecaRoyaltyD
     }
 
 
+    //totales
+    @Override
+    public BigDecimal sumTotalRoyalty(SearchRequest request) {
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<BigDecimal> query =
+                cb.createQuery(BigDecimal.class);
+
+        Root<MusicotecaRoyaltyDetail> root =
+                query.from(MusicotecaRoyaltyDetail.class);
+
+        Expression<BigDecimal> totalRoyalty =
+                cb.sum(root.get("totalRoyalty"));
+
+        query.select(totalRoyalty);
+
+        SearchSpecification<MusicotecaRoyaltyDetail> specification =
+                new SearchSpecification<>(request);
+
+        Predicate predicate =
+                specification.toPredicate(
+                        root,
+                        query,
+                        cb
+                );
+
+        if (predicate != null) {
+            query.where(predicate);
+        }
+
+        BigDecimal result =
+                entityManager
+                        .createQuery(query)
+                        .getSingleResult();
+
+        return result != null
+                ? result
+                : BigDecimal.ZERO;
+    }
+
 }
