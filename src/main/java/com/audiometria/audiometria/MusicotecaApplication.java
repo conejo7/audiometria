@@ -3,13 +3,15 @@ package com.audiometria.audiometria;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @EnableAsync
 @SpringBootApplication
-public class AudiometriaApplication {
+public class MusicotecaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AudiometriaApplication.class, args);
+		SpringApplication.run(MusicotecaApplication.class, args);
 	}
 
 }

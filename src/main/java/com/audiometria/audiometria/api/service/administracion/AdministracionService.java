@@ -19,4 +19,28 @@ public class AdministracionService {
                 "REFRESH MATERIALIZED VIEW mv_musicoteca_royalty_summary"
         );
     }
+
+    @Transactional
+    public void refreshRoyaltyDetail() {
+
+        System.out.println(">>> INICIANDO REFRESH VIEW");
+
+        try {
+
+            jdbcTemplate.execute(
+                    "REFRESH MATERIALIZED VIEW public.mv_musicoteca_royalty_detail"
+            );
+
+            System.out.println(">>> REFRESH VIEW OK");
+
+        } catch (Exception e) {
+
+            System.err.println(">>> ERROR REFRESH VIEW: " + e.getMessage());
+            e.printStackTrace();
+
+            throw e;
+        }
+    }
+
+
 }
