@@ -14,7 +14,7 @@ public class MaterializedViewScheduler {
         this.administracionService = musicaService;
     }
 
-    @Scheduled(cron = "0 0 3 * * *", zone = "America/Guayaquil")
+//    @Scheduled(cron = "0 0 3 * * *", zone = "America/Guayaquil")
     public void refreshViews() {
         System.out.println(">>> EJECUTANDO REFRESH MATERIALIZED VIEW");
         administracionService.refreshRoyaltyDetail();
